@@ -89,6 +89,7 @@ function nextState(currentState) {
   return newState;
 }
 
+// Renders game as text in a table
 function drawGame(state) {
   const gameTable = document.querySelector("#game-table");
   gameTable.innerHTML = "";
@@ -103,15 +104,12 @@ function drawGame(state) {
   }
 }
 
-let playing = true;
 const startButton = document.querySelector("#start-button");
 const stopButton = document.querySelector("#stop-button");
-
 let intervalID;
 
 startButton.addEventListener("click", () => {
-  playing = true;
-  startGame(randomState(32, 20));
+  startGameCanvas(randomState(100, 100));
 });
 
 stopButton.addEventListener("click", () => {
@@ -124,4 +122,35 @@ function startGame(initState) {
     drawGame(toRender);
     toRender = nextState(toRender);
   }, 500);
+}
+
+//Render to canvas
+
+const canvas = document.getElementById("game-canvas");
+const ctx = canvas.getContext("2d");
+
+function renderCanvas(state, cellSize) {
+  let width = getWidth(state);
+  let height = getHeight(state);
+  ctx.canvas.width = width * cellSize;
+  ctx.canvas.height = height * cellSize;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      ctx.beginPath();
+      if (state[y][x] === 1) {
+        ctx.fillRect(x * 10, y * 10, 10, 10);
+        // ctx.font = "20px Courier New";
+        // ctx.strokeText("#", x * cellSize, y * cellSize);
+      }
+    }
+  }
+}
+
+function startGameCanvas(initState) {
+  let toRender = initState;
+  intervalID = setInterval(() => {
+    renderCanvas(toRender, 10);
+    toRender = nextState(toRender);
+  }, 100);
 }
