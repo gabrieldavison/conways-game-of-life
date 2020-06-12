@@ -89,13 +89,39 @@ function nextState(currentState) {
   return newState;
 }
 
-let play = true;
-
-function runForever(startState) {
-  let toRender = startState;
-  while (play === true) {
-    setTimeout(render(toRender), 100);
-    toRender = nextState(toRender);
+function drawGame(state) {
+  const gameTable = document.querySelector("#game-table");
+  gameTable.innerHTML = "";
+  for (let y = 0; y < state.length; y++) {
+    const row = document.createElement("tr");
+    gameTable.appendChild(row);
+    for (let x = 0; x < state[0].length; x++) {
+      const cell = document.createElement("td");
+      row.appendChild(cell);
+      cell.innerText = `${state[y][x]}`;
+    }
   }
 }
-runForever(randomState(30, 30));
+
+let playing = true;
+const startButton = document.querySelector("#start-button");
+const stopButton = document.querySelector("#stop-button");
+
+let intervalID;
+
+startButton.addEventListener("click", () => {
+  playing = true;
+  startGame(randomState(32, 20));
+});
+
+stopButton.addEventListener("click", () => {
+  clearInterval(intervalID);
+});
+
+function startGame(initState) {
+  let toRender = initState;
+  intervalID = setInterval(() => {
+    drawGame(toRender);
+    toRender = nextState(toRender);
+  }, 500);
+}
