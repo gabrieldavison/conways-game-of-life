@@ -23,18 +23,10 @@ function randomState(width, height) {
   return board;
 }
 
-function getHeight(state) {
-  return state.length;
-}
-
-function getWidth(state) {
-  return state[0].length;
-}
-
 //returns whether a specific cell will be active or dead next round
 function nextCellValue(coords, state) {
-  const width = getWidth(state);
-  const height = getHeight(state);
+  const width = state[0].length;
+  const height = state.length;
   const y = coords[0];
   const x = coords[1];
   let activeNeighbours = 0;
@@ -65,13 +57,14 @@ function nextCellValue(coords, state) {
 }
 
 //returns the state of the board next turn
-function nextState(currentState) {
-  const width = getWidth(currentState);
-  const height = getHeight(currentState);
+function nextState(state) {
+  const width = state[0].length;
+  const height = state.length;
   let newState = deadState(width, height);
+
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      newState[y][x] = nextCellValue([y, x], currentState);
+      newState[y][x] = nextCellValue([y, x], state);
     }
   }
   return newState;

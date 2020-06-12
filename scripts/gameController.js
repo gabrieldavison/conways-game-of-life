@@ -4,9 +4,7 @@ import { renderStateToCanvas, drawCanvas } from "./render.js";
 //size of each cell on canvas in px
 let cellSize = 10;
 
-//sets game width
 let width = 100;
-//updates width variable
 function updateWidth(value) {
   width = value;
   //clears state and draws new black canvas
@@ -14,7 +12,6 @@ function updateWidth(value) {
   drawCanvas(width * 10, height * 10);
 }
 
-//sets game height
 let height = 50;
 function updateHeight(value) {
   height = value;
@@ -25,9 +22,8 @@ function updateHeight(value) {
 //current state of game when the game is not active
 let currentState = deadState(width, height);
 
-//randomizes current state
 function randomizeCurrentState() {
-  //if game is active randomizes the state that will next be rendered
+  //if game is active randomizes toRender otherwise randomizes currentState
   if (gameActive) {
     toRender = randomState(width, height);
   } else {
@@ -36,7 +32,7 @@ function randomizeCurrentState() {
   }
 }
 
-//edits current state when manualls placing cells
+//edits current state when manually placing cells
 function editCurrentState(coord) {
   let stateToEdit;
   //decides whether to edit toRender if game is active or currentState if game is not active
@@ -63,8 +59,6 @@ function clearState() {
   renderStateToCanvas(currentState, cellSize);
 }
 
-//starts game rendering to html5 canvas
-
 //used for stopping / starting game interval
 let intervalID;
 
@@ -85,7 +79,7 @@ function startGame() {
 
 function stopGame() {
   if (gameActive) {
-    //stores state to next be rendered so that canvas does not revert to whatever was stored in currentState before
+    //stores state that will next be rendered so  canvas does not revert to whatever was stored in currentState before the game was started
     currentState = toRender;
   }
   clearInterval(intervalID);

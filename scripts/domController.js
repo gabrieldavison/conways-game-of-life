@@ -24,6 +24,7 @@ function setupEventListeners() {
     toggleStartStop();
   });
 
+  //toggles the visibility of start or stop button to sonly one is visible at a time
   function toggleStartStop() {
     startButton.classList.toggle("hidden");
     stopButton.classList.toggle("hidden");
@@ -41,6 +42,7 @@ function setupEventListeners() {
 
   const widthInput = document.querySelector("#width-input");
   widthInput.value = 100;
+  //both even listeners necessary to that width updates while typing and when the input loses focus
   widthInput.addEventListener("input", (e) => {
     updateWidth(e.target.value);
   });
@@ -65,6 +67,7 @@ function setupEventListeners() {
     return [Math.floor(x / 10), Math.floor(y / 10)];
   }
 
+  //event listener for placing cells with mouse
   const canvas = document.querySelector("#game-canvas");
   canvas.addEventListener("click", (e) => {
     editCurrentState(getMouseCoordinates(canvas, e));
